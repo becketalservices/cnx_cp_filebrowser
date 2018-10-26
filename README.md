@@ -6,7 +6,7 @@ This solution is based on [File Browser](https://filebrowser.github.io/)
 
 ## Getting Started
 
-Make shure you already have Comonent Pack up and running.
+Make sure you already have Component Pack up and running.
 
 ## Installation
 
