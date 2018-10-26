@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "filebrowser.fullname" . }}
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    app.kubernetes.io/name: {{ include "filebrowser.name" . }}
+    helm.sh/chart: {{ include "filebrowser.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      nodePort: {{ .Values.service.nodePort }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "filebrowser.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
