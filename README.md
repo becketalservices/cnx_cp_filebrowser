@@ -8,11 +8,18 @@ This solution is build on tomcat and has no Docker image available. So we need t
 
 # 1 Clone or download git repo
 
+```
+git clone https://github.com/becketalservices/cnx_cp_filebrowser.git \
+  --branch webfilesys --single-branch webfilesys
+
+```
 
 # 2 Create Docker image
-I did not include the source files into this repository, you you need to download and extract them first.
+I did not include the source files into this repository, you need to download and extract them first.
 
-1. Download webfilesys 
+1. Download webfilesys  
+Open the [WebFileSys](http://www.webfilesys.de/webfilesys-home/download.html) homepage and download the latest package.  
+Place the package into the root folder of the git repository.
 2. Extract the contents:
 ```
 mkdir webfilesys
@@ -56,7 +63,7 @@ docker push $registry/webfilesys:$tag
 
 You need the name of the Storeage Class if you do not want to use the default for creating a new persistant volume. This volume will host the  users.xml where your user accounts are stored.
 
-As you uploaded the the docker image to your private registry, the registry name is also necessary.
+As you uploaded the docker image to your private registry, the registry name is also required.
 
 run on your kubernetes installation host or master:
 
