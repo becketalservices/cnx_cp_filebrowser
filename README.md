@@ -4,18 +4,20 @@ This project will add a simple web-based file manager to your Component Pack ins
 
 This solution is based on [File Browser](https://filebrowser.github.io/)
 
+**You can also check my 2nd solution based on [WebFileSys](https://github.com/becketalservices/cnx_cp_filebrowser/tree/webfilesys)**
+
 ## Getting Started
 
 Make sure you already have Component Pack up and running.
 
 ## Installation
 
-You need the name of the Storeage Class (in my case: aws-efs, default IBM: anything) for creating a new persistant volume. This volume will host the database required by filebrowser.
+You need the name of the Storeage Class (Kubernetes default: default) for creating a new persistant volume. This volume will host the database required by filebrowser. You must specify the Storage Class. The helm chart default value _anygthing_ will probably not work.
 
 run on your kubernetes installation host or master:
 ```
 helm install https://github.com/becketalservices/cnx_cp_filebrowser/releases/download/v1.0.0/filebrowser-1.0.0.tgz \
---name filebrowser --set storageClassName=aws-efs --namespace connections
+--name filebrowser --set storageClassName=default --namespace connections
 ```
 
 You can then simply add the tool by adding the usual Proxy Rules inside the HTTP Server config:
