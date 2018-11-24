@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<users>
+  <user id="admin">
+    <password encryption="none">topsecret</password>
+    <documentRoot>/mnt/files</documentRoot>
+    <role>admin</role>
+    <firstName>Admin</firstName>
+    <lastName>Administrator</lastName>
+    <language>English</language> 
+    <readonly>false</readonly>   
+    <email>nobody@nowhere.com</email>   
+    <css>fmweb</css>   
+  </user>
+  <user id="user">
+    <password encryption="none">topsecret</password>
+    <documentRoot>/mnt/files</documentRoot>
+    <role>user</role>
+    <firstName>User</firstName>
+    <lastName>User</lastName>
+    <language>English</language> 
+    <readonly>false</readonly>   
+    <email>nobody@nowhere.com</email>   
+    <css>fmweb</css>   
+  </user>
+</users>
