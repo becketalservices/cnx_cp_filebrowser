@@ -1,0 +1,275 @@
+#svgChartCont {
+  background-color: white !important;
+}
+
+.dirTree {
+    background-color:white;
+}
+
+body.dirTree {
+    background-color:white;
+}
+
+div.last {
+    background-color:white;
+}
+
+.plaintext {
+    color: white;
+}
+
+div.loginBox {
+  background-color:lightgray;
+}
+
+a.dir:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.icon-button {
+  margin-top: 2px;
+  border: 1px solid;
+  border-color: #325c80;
+  background-color: #325c80;
+}
+
+.icon-font {
+    font-weight: 100;
+}
+
+.icon-button:hover {
+  border-color: white;
+}
+
+body.fileListNoMargin {
+    background-color: white;
+}
+
+div.fileListScrollDiv {
+    background-color: white;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+body.menubar {
+    background-color:#325c80;
+}
+
+div.msgBox {
+    background-color:white;
+    color:black;
+}
+ 
+div.uploadStatus {
+    background-color:white;
+}
+
+/* depreacted - replace with div.headline! */
+th.headline {
+    background-color:white;
+}
+ 
+div.headline {
+    background-color:white;
+}
+ 
+th.datahead {
+    background-color:white;
+}
+
+input,select,textarea {
+    background-color:white;
+}
+ 
+input.cb {
+    background-color:white;
+    border: none;
+}
+
+input.cb3 {
+    background-color:#ffffe0;
+    border: none;
+}
+
+input.cb4 {
+    background-color:white;
+    border: none;
+}
+
+input.cb5 {
+    background-color:#ffffe0;
+    border: none;
+}
+
+body.menu {
+    background-color:#c0c0c0;
+}
+
+td.menu {
+    background-color:#e0e0e0;
+}
+
+a.menuitem,
+span.menuitem {
+    color:#000080;
+}
+
+a.menuitem:hover,
+span.menuitem:hover {
+    color: #000080;
+    text-decoration: underline;
+}
+
+td.jsmenu {
+    background-color:#e0e0e0;
+}
+
+td.jsmenu:hover {
+    background-color:#f0f0f0;
+}
+
+td.fileList {
+    background-color: white;
+}
+
+td.fileListFunct, td.fileListFunctCont, td.fileListFunct2 {
+    background-color:white;
+}
+
+table.fileListHead, th.fileListHead {
+    background-color:white;
+}
+
+td.fileListData {
+    background-color:white;
+}
+
+a.subFolder, a.subFolder:hover {
+  color: navy;
+}
+
+a.fn:hover {
+  color: navy;
+}
+
+div.contextMenu table th {
+    background-color: darkgray;
+}
+
+div.searchPath
+{
+    background-color:white;
+}
+
+span.searchPath
+{
+    background-color:white;
+}  
+
+td.tabActive {
+    background-color:white;
+}
+ 
+td.tabAlbum {   
+    background-color:white;
+}
+
+div.more {
+    background-color:white;
+} 
+
+table.dataForm {
+    background-color:white;
+}
+
+table.formSection {
+    background-color:white;
+}
+
+td.formParm1 {
+    background-color:white;
+}
+
+td.formParm2 {
+    background-color:white;
+}
+
+td.formButton {
+    background-color:white;
+}
+
+input.formParm1 {
+    background-color:white;
+}
+
+div.hint {
+    background-color:white;
+}
+
+th.fileList {
+    background-color:white;
+}
+
+table.contextMenu th {
+    background-color: white;
+}
+
+table.fileList {
+    background-color: white;
+}
+
+table.fileList tr td {
+    background-color: white;
+}
+
+div.pictureScrollContNoBorder {
+    background-color: white;
+}
+
+td.fileListSelectedRow {
+    background-color: #c0c0c0!important;
+}
+
+td.story2 {
+    background-color: white;
+    color: navy;
+}
+
+.icon-button a:before {
+	/* color: #325c80; */
+    color: white;
+}
+
+span.fileAgeDay {
+	background-color: #ffe080;
+}
+
+span.fileAgeWeek {
+	background-color: #ffe0e0;
+}
+
+span.fileAgeMonth {
+	background-color: #e0ffe0;
+}
+
+span.fileAgeYear {
+	background-color: #e0e0ff;
+}
+
+td.fileListFunctCont a.icon-paging:before,
+td.fileListFunct a.icon-paging:before {
+    color: #5050a0;
+}
+
+div.promptHead {
+    background-color: #325c80;
+    color: white;
+}
+
+div.promptBox {
+    background-color: white;
+}
+
+table.fileListButtonCont2 {
+    background-color: #c0c0c0;
+}

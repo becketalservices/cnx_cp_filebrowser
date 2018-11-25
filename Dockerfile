@@ -15,6 +15,7 @@ RUN chmod u+x $CATALINA_HOME/bin/startup.sh; \
   mkdir -p /mnt/config; mkdir -p /mnt/files; \ 
   sed -i "s/Connector port/Connector URIEncoding=\"UTF-8\" port/" $CATALINA_HOME/conf/server.xml; \
   ln -s /mnt/config/users.xml $CATALINA_HOME/webapps/webfilesys/WEB-INF/users.xml ; \
+  ln -s /mnt/config/decorations.xml $CATALINA_HOME/webapps/webfilesys/WEB-INF/decorations.xml ; \
   cp $CATALINA_HOME/webapps/webfilesys/index.html $CATALINA_HOME/webapps/ROOT/index.html
 
 CMD ["startup.sh", "run"]
