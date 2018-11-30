@@ -1,0 +1,14 @@
+	<filter>
+		<filter-name>LtpaTokenAuthFilter</filter-name>
+		<filter-class>de.beas.LtpaTokenAuthFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LtpaTokenAuthFilter</filter-name>
+		<url-pattern>/servlet/*</url-pattern>
+	</filter-mapping>
+	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/html/NotAuthorized.html</location>
+	</error-page>

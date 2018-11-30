@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <!--  appender name="WebFileSysLogAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="C:/data/system.log" />
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n"/>
+    </layout>
+  </appender -->
+  <!--  appender name="FilterLogAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="C:/data/filter_system.log" />
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n"/>
+    </layout>
+  </appender -->
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="target" value="System.out"/>
+		<param name="immediateFlush" value="false"/>
+		<param name="encoding" value="UTF-8"/>
+		<!--  param name="threshold" value="warn"/ -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="conversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+		</layout>
+	</appender>
+  <!--
+  <appender name="MAIL" class="org.apache.log4j.net.SMTPAppender">
+    <param name="SMTPHost" value="mail" />
+    <param name="Subject" value="WebFileSys serious error" />
+    <param name="To" value="admin@webfilesys.nowhere.com" />
+    <param name="From" value="admin@webfilesys.nowhere.com" />
+    <param name="BufferSize" value="5" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n"/>
+    </layout>
+  </appender>
+  -->
+
+  <logger name="de.webfilesys" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="console" />
+  </logger>  
+
+  <logger name="de.beas" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="console" />
+  </logger>  
+
+  <logger name="org.apache.http.wire" additivity="false">
+    <level value="error" />
+    <appender-ref ref="console" />
+  </logger>  
+
+  <logger name="org.apache.http" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="console" />
+  </logger>  
+
+  <root>
+    <priority value="info"/>
+    <appender-ref ref="console"/>
+  </root>
+  
+</log4j:configuration>
