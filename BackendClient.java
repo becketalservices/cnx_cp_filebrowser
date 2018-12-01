@@ -1,7 +1,6 @@
 package de.beas;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -26,38 +25,44 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import de.beas.json.self.SelfEntry;
 import de.beas.json.profile.Profile;
+import de.beas.json.self.SelfEntry;
 
 public class BackendClient {
 	private static Logger LOG = Logger.getLogger(BackendClient.class);
 
-	private String backendServerURL;
+	private String icConnectionsURL;
+	private String icProfilesURL;
 
-	private static String ADMIN_URL = "/connections/resources/web/user/roles?role=admin";
-	private static String USER_SELF_URL = "/connections/opensocial/rest/people/@me/@self";
-	private static String USER_PROFILE_URL = "/profiles/json/profile.do?format=compact&userid=%s";
+	private static String ADMIN_URL = "%s/resources/web/user/roles?role=admin";
+	private static String USER_SELF_URL = "%s/opensocial/rest/people/@me/@self";
+	private static String USER_PROFILE_URL = "%s/json/profile.do?format=compact&userid=%s";
 
 	private CookieStore cookieStore;
 	private CloseableHttpClient httpclient;
 
-	public BackendClient(String backendServerURL, String cookieDomain, Cookie ltpaToken, Cookie ltpaToken2) {
+	private boolean isInit = false;
+
+	public BackendClient(String icConnectionsURL, String icProfilesURL, String icHost, Cookie ltpaToken, Cookie ltpaToken2) {
+		isInit = false;
 		cookieStore = new BasicCookieStore();
 		if (ltpaToken != null) {
 			BasicClientCookie ltpaCookie = new BasicClientCookie(ltpaToken.getName(), ltpaToken.getValue());
-			ltpaCookie.setDomain(cookieDomain);
+			ltpaCookie.setDomain(icHost);
 			ltpaCookie.setAttribute(ClientCookie.DOMAIN_ATTR, "true");
 			ltpaCookie.setPath("/");
 			//ltpaCookie.setExpiryDate(ltpaToken.getMaxAge());
 			cookieStore.addCookie(ltpaCookie);
+			isInit = true;
 		}
 		if (ltpaToken2 != null) {
 			BasicClientCookie ltpaCookie2 = new BasicClientCookie(ltpaToken2.getName(), ltpaToken2.getValue());
-			ltpaCookie2.setDomain(cookieDomain);
+			ltpaCookie2.setDomain(icHost);
 			ltpaCookie2.setAttribute(ClientCookie.DOMAIN_ATTR, "true");
 			ltpaCookie2.setPath("/");
 			//ltpaCookie.setExpiryDate(ltpaToken.getMaxAge());
 			cookieStore.addCookie(ltpaCookie2);
+			isInit = true;
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Contents of Cookie store");
@@ -66,10 +71,15 @@ public class BackendClient {
 				LOG.debug("Cookie: " + cookie.toString());
 			}
 		}
+		if (icConnectionsURL == null || icConnectionsURL.length() == 0 || 
+				icProfilesURL == null || icProfilesURL.length() == 0 ||
+				icHost == null || icHost.length() == 0) {
+			isInit = false;
+		}
 
 		httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-
-		this.backendServerURL = backendServerURL;
+		this.icConnectionsURL = icConnectionsURL;
+		this.icProfilesURL = icProfilesURL;
 
 	}
 	/**
@@ -79,10 +89,12 @@ public class BackendClient {
 	 * @return true in case user has admin role.
 	 */
 	public boolean isAdmin() {
+		if (!isInit)
+			return false;
 		boolean isAdmin = false;
 		CloseableHttpResponse response1 = null;
 		try {
-			HttpGet httpGet = new HttpGet(backendServerURL + ADMIN_URL);
+			HttpGet httpGet = new HttpGet(String.format(ADMIN_URL, icConnectionsURL));
 			response1 = httpclient.execute(httpGet);
 			LOG.debug("ADMIN FETCH: " + response1.getStatusLine());
 
@@ -125,9 +137,12 @@ public class BackendClient {
 	 * @return userid
 	 */
 	public String getUserID() {
+		if (!isInit)
+			return null;
+
 		// 1. Do a request to the self URL to get the profile ID.
 		// 2. Do a request to the profile URL to get the uid.
-		
+
 		String userid = null;
 		String profileId = getProfileID();
 		if (profileId != null && profileId.length() > 0) {
@@ -143,7 +158,7 @@ public class BackendClient {
 		}
 		return userid;
 	}
-	
+
 	/**
 	 * Do a request to the backend to get the user profile id
 	 * @return profileid
@@ -156,12 +171,12 @@ public class BackendClient {
 
 		CloseableHttpResponse response1 = null;
 		try {
-			HttpGet httpGet = new HttpGet(backendServerURL + USER_SELF_URL);
+			HttpGet httpGet = new HttpGet(String.format(USER_SELF_URL, icConnectionsURL));
 			response1 = httpclient.execute(httpGet);
 			LOG.debug("SELF_URL FETCH: " + response1.getStatusLine());
 
 			HttpEntity entity1 = response1.getEntity();
-			
+
 			if (response1.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				/*
 				BufferedReader reader = new BufferedReader(new InputStreamReader(entity1.getContent()));
@@ -204,12 +219,12 @@ public class BackendClient {
 
 		CloseableHttpResponse response1 = null;
 		try {
-			HttpGet httpGet = new HttpGet(backendServerURL + String.format(USER_PROFILE_URL, profileId));
+			HttpGet httpGet = new HttpGet(String.format(USER_PROFILE_URL, icProfilesURL, profileId));
 			response1 = httpclient.execute(httpGet);
 			LOG.debug("PROFILE_URL FETCH: " + response1.getStatusLine());
 
 			HttpEntity entity1 = response1.getEntity();
-			
+
 			if (response1.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				/*
 				BufferedReader reader = new BufferedReader(new InputStreamReader(entity1.getContent()));
@@ -217,7 +232,7 @@ public class BackendClient {
 				while ((line=reader.readLine())!=null) {
 					LOG.debug(line);
 				} */
-				
+
 				Gson gson = new Gson();
 				Profile profile = gson.fromJson(new InputStreamReader(entity1.getContent()), Profile.class);
 				if (LOG.isDebugEnabled() && profile != null && profile.getUid() != null) {

@@ -1,5 +1,6 @@
 package de.beas;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,18 +12,44 @@ import de.webfilesys.user.XmlUserManager;
 
 public class DefaultValueUserManager extends XmlUserManager {
 	private static Logger LOG = Logger.getLogger(DefaultValueUserManager.class);
-	
-	private static final String DEFAULT_CSS = "fmweb";
-	
-	private static final String DEFAULT_LANGUAGE = "English";
-	
-	private static final String DEFAULT_ROLE = "webspace";
 
-	private static final String DEFAULT_DOC_ROOT = "*:";
-	
+	private String defaultCSS = "fmweb";
+
+	private String defaultLanguage = "English";
+
+	private String defaultRole = "webspace";
+
+	private String defaultDocRoot = "*:";
+
+
 	public DefaultValueUserManager() {
 		super();
 		LOG.info("Init DummyUserManager");
+		if (File.separatorChar == '/') {
+			defaultDocRoot = "/";
+		}
+		String prop = System.getProperty("de.beas.DefaultValueUserManager.css");
+		if (prop != null && prop.length() > 0) {
+			defaultCSS = prop;
+		}
+		prop = System.getProperty("de.beas.DefaultValueUserManager.language");
+		if (prop != null && prop.length() > 0) {
+			defaultLanguage = prop;
+		}
+		prop = System.getProperty("de.beas.DefaultValueUserManager.role");
+		if (prop != null && prop.length() > 0) {
+			defaultRole = prop;
+		}		
+		prop = System.getProperty("de.beas.DefaultValueUserManager.docroot");
+		if (prop != null && prop.length() > 0) {
+			defaultDocRoot = prop;
+		}	
+		
+		LOG.debug("Default CSS: " + defaultCSS);
+		LOG.debug("Default Language: " + defaultLanguage);
+		LOG.debug("Default Role: " + defaultRole);
+		LOG.debug("Default Doc Root: " + defaultDocRoot);
+
 	}
 
 	public ArrayList<String> getListOfUsers() {
@@ -138,7 +165,7 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug("getLanguage('" + userId + "')");
 		String lang = super.getLanguage(userId);
 		if (lang == null || lang.length() == 0)
-			return DEFAULT_LANGUAGE;
+			return defaultLanguage;
 		return lang;
 	}
 
@@ -146,7 +173,7 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug("getRole('" + userId + "')");
 		String role= super.getRole(userId);
 		if (role == null || role.length() == 0) 
-			return DEFAULT_ROLE;
+			return defaultRole;
 		return role;
 	}
 
@@ -160,7 +187,7 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug(String.format("UserExist: %b", userExists(userId)));
 		String docRoot = super.getDocumentRoot(userId);
 		if (docRoot == null || docRoot.length() == 0 || !userExists(userId))
-			docRoot = DEFAULT_DOC_ROOT;
+			docRoot = defaultDocRoot;
 		LOG.debug("Doc Root: " + docRoot);
 		return docRoot;
 	}
@@ -170,7 +197,7 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug(String.format("UserExist: %b", userExists(userId)));
 		String docRoot = super.getLowerCaseDocRoot(userId);
 		if (docRoot == null || docRoot.length() == 0 || !userExists(userId))
-			docRoot = DEFAULT_DOC_ROOT.toLowerCase();
+			docRoot = defaultDocRoot.toLowerCase();
 		LOG.debug("Doc Root: " + docRoot);
 		return docRoot;
 	}
@@ -204,7 +231,7 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug("getCSS('" + userId + "')");
 		String css = super.getCSS(userId);
 		if ( css == null || css.length() == 0) {
-			return DEFAULT_CSS;
+			return defaultCSS;
 		}
 		return css;
 	}
@@ -223,20 +250,20 @@ public class DefaultValueUserManager extends XmlUserManager {
 		LOG.debug("activateUser(..)");
 		super.activateUser(activationCode);
 	}
-	
+
 	protected TransientUser buildgetTransientUser(String userId) {
 		TransientUser user = new TransientUser();
 
-        user.setUserid(userId);
-        
-        user.setCss(DEFAULT_CSS);
-        
-        user.setLanguage(DEFAULT_LANGUAGE);
+		user.setUserid(userId);
 
-        user.setDocumentRoot(DEFAULT_DOC_ROOT);
-        
-        user.setRole(DEFAULT_ROLE);
-        
-        return user;
+		user.setCss(defaultCSS);
+
+		user.setLanguage(defaultLanguage);
+
+		user.setDocumentRoot(defaultDocRoot);
+
+		user.setRole(defaultRole);
+
+		return user;
 	}
 }
