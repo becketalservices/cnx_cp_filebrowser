@@ -14,6 +14,21 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+env:
+  debuglevel: 0
+  configMapKeyRef:
+    name: connections-env
+  css:
+    value: ics
+  language:
+    value: English
+  role:
+    value:
+  basedir:
+    value: /mnt/files
+  configdir:
+    value: /mnt/config
+
 nameOverride: ""
 fullnameOverride: ""
 

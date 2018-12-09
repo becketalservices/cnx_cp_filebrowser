@@ -14,7 +14,26 @@ git clone https://github.com/becketalservices/cnx_cp_filebrowser.git \
 
 ```
 
-# 2 Create Docker image
+# 3 Create Docker image via script
+I did not include the source files into this repository, you need to download and extract them first.
+
+Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
+
+1. Download webfilesys
+Open the [WebFileSys](http://www.webfilesys.de/webfilesys-home/download.html) homepage and download the latest package.
+Place the package into the root folder of the git repository.
+2. run configuration script 
+The configuratio script does all the work for you adding the IBM Connections authentication solution as well. 
+In case you want to it manually, check what the script does. 
+The script requres curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
+  
+```
+  ./configure.sh
+```
+  
+check the output for errors.
+
+# 3 Create basic Docker image manually
 I did not include the source files into this repository, you need to download and extract them first.
 
 Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
@@ -22,14 +41,16 @@ Please check the license information about WebFileSys on the bottom of the [Abou
 1. Download webfilesys  
 Open the [WebFileSys](http://www.webfilesys.de/webfilesys-home/download.html) homepage and download the latest package.  
 Place the package into the root folder of the git repository.
-2. Extract the contents:
+2. Extract the contents: 
+  
 ```
 mkdir webfilesys
 unzip webfilesys-*.zip -d webfilesys
 mkdir webfilesys/webfilesys_war
 unzip webfilesys/webfilesys.war -d webfilesys/webfilesys_war
 
-```
+``` 
+
 3. In case you want to modify the default user / passwords / documentRoot
 modify the file webfilesys/webfilesys\_war/WEB-INF/users.xml.unix<br>
 an example is in the root directory where a 2nd user exists and the documentRoot is /mnt/files<br>
@@ -41,7 +62,7 @@ To make it the default ui, you need to modify the users.xml.unix
 `sed -i "s/<css>.*<\/css>/<css>ics<\/css>/" webfilesys/webfilesys_war/WEB-INF/users.xml.unix`
 5. run ./build.sh
 
-# 3 Test your image
+# 4 Test your image
 You can test your new docker image:
 
 1. create directories config and files
@@ -51,6 +72,7 @@ The default username is admin / topsecret
 
 # 4 Upload to our Docker registry
 You need to tag and then upload the image
+  
 ```
 # Path to your registry. e.g.: cpcontainerregistry.azurecr.io
 registry=<registry>
@@ -81,12 +103,16 @@ registry=<registry>
 # Name of your storage Class
 storeClassName=default
 
+# Debug Level (default:0, debug:1)
+debugleve=0
+
 # Install
 helm install ./helm/webfilesys \
   --name webfilesys \
   --namespace connections \
   --set image.repository=$registry \ 
-  --set storageClassName=$storeClassName
+  --set storageClassName=$storeClassName \
+  --set env.debuglevel=$debuglevel
 
 ```
 

@@ -30,9 +30,9 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: config-volume
-          mountPath: /mnt/config
+          mountPath: {{ .Values.env.configdir.value }}
         - name: file-volume
-          mountPath: /mnt/files
+          mountPath: {{ .Values.env.basedir.value }} 
         resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
@@ -47,6 +47,45 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+        env:
+        - name: DEBUG_LEVEL 
+          value: "{{ .Values.env.debuglevel }}"
+        - name: BASE_DIR 
+          value: {{ .Values.env.basedir.value }}
+        - name: CONFIG_DIR 
+          value: {{ .Values.env.configdir.value }}
+{{- if (.Values.env.css.value)}}
+        - name: DEFAULT_CSS 
+          value: {{ .Values.env.css.value }}
+{{- end}}
+{{- if (.Values.env.language.value) }}
+        - name: DEFAULT_LANG 
+          value: {{ .Values.env.language.value }}
+{{- end }}
+{{- if (.Values.env.role.value) }}
+        - name: DEFAULT_ROLE
+          value: {{ .Values.env.role.value }}
+{{- end }}
+        - name: IC_CONNECTIONS 
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.env.configMapKeyRef.name }}
+              key: ic-connections-url
+        - name: IC_HOMEPAGE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.env.configMapKeyRef.name }}
+              key: ic-homepage-url
+        - name: IC_PROFILES 
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.env.configMapKeyRef.name }}
+              key: ic-profiles-url
+        - name: IC_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.env.configMapKeyRef.name }}
+              key: customizer-interservice-host 
       volumes:
         - name: config-volume 
           persistentVolumeClaim:
