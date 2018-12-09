@@ -19,16 +19,16 @@ I did not include the source files into this repository, you need to download an
 
 Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
 
-1. Download webfilesys
+1. Download webfilesys  
 Open the [WebFileSys](http://www.webfilesys.de/webfilesys-home/download.html) homepage and download the latest package.
 Place the package into the root folder of the git repository.
-2. run configuration script 
-The configuratio script does all the work for you adding the IBM Connections authentication solution as well. 
-In case you want to it manually, check what the script does. 
+2. run configuration script  
+The configuration script does all the work for you, adding the IBM Connections authentication solution as well. 
+In case you want to do it manually, check what the script does. 
 The script requres curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
   
 ```
-  ./configure.sh
+./configure.sh
 ```
   
 check the output for errors.
@@ -94,7 +94,7 @@ You need the name of the Storeage Class if you do not want to use the default fo
 
 As you uploaded the docker image to your private registry, the registry name is also required.
 
-run on your kubernetes installation host or master:
+Run on your kubernetes installation host or master:
 
 ```
 # Path to your registry. e.g.: cpcontainerregistry.azurecr.io
@@ -140,5 +140,5 @@ In case you want to do more with WebFileSys than managing files for IBM Customiz
 
 The provided instructions and other assets are licensed under the GPL V3.
 
-Pleae honor the which of the author of WebFileSys and register your copy. For details see the License chapter in [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html).
+Please note the request of the author of WebFileSys and register your copy. For details see the license chapter in [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html).
 
