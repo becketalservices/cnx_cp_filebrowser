@@ -70,7 +70,7 @@ You can test your new docker image:
 3. Access the container on port :8888. 
 The default username is admin / topsecret
 
-# 4 Upload to our Docker registry
+# 5 Upload to your Docker registry
 You need to tag and then upload the image
   
 ```
@@ -88,7 +88,7 @@ docker push $registry/webfilesys:$tag
 
 ```
 
-# 5 Use Helm to install the final solution
+# 6 Use Helm to install the final solution
 
 You need the name of the Storeage Class if you do not want to use the default for creating a new persistant volume. This volume will host the users.xml where your user accounts are stored.
 
@@ -104,7 +104,7 @@ registry=<registry>
 storeClassName=default
 
 # Debug Level (default:0, debug:1)
-debugleve=0
+debuglevel=0
 
 # Install
 helm install ./helm/webfilesys \
@@ -128,15 +128,15 @@ The default login is admin:topsecret
 This might be different in case you used a custom users.xml.unix file.  
 I recommend to change all password for all default users. 
 
-There is no integration with the Connections Authentication. It is just a stand alone web-based file manager that acts on the same storage as the IBM Connections Component Pack Customizer.
+Depending on the methond you choose to create your docker image, there is an integration with IBM Connections. When the integration is active, you get redirected to your IBM Connections Homepage for authentication equal to the method, the Component Pack Customizer uses. If you need more inforamation about the IBM Connections Authentication check the documentation for [Authentication modules for IBM Connections based Authentication](https://github.com/becketalservices/cnx_cp_filebrowser/tree/wfs_cnx_auth). To bypass the IBM Connections Authentication, use /webfilesys/servlet?command=loginForm as URL. This will force the webfilesys authentication based on the users.xml file.
 
-# 6 Configuration
+# 7 Configuration
 
 Currently there are no configurations available beside that you can manage users.  
 
 In case you want to do more with WebFileSys than managing files for IBM Customizer, feel free to modify the _webfilesys.conf_ or any other configuration file. You can either backe you modifications into your docker image or move the files into the /mnt/config directory. Adapt the _setup/startup.sh_ script to initialize your config directory and the Dockerfile to create links from the original position of the files into the config directory.
  
-# 7 License
+# 8 License
 
 The provided instructions and other assets are licensed under the GPL V3.
 

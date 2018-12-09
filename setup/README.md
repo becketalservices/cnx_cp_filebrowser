@@ -3,10 +3,10 @@ Startup Script for the Docker containter
 
 # Environment Variables
 
-* DEBUG\_LEVEL 
-Set to 1 to used debug logging for webfilesys and the ICS login manager
+* DEBUG\_LEVEL  
+Set to 1 to use debug logging for webfilesys and the LTPA login manager
 * CATALINA\_OPTS  
-This optiosn will be enhanced and then forwarded to the tomcat server
+This option will be enhanced and then forwarded to the tomcat server
 * CONFIG\_DIR  
 Configuration directory. Defaults to /mnt/config  
 Directory must be persistant. ReadWriteOnly storage class is sufficient.
@@ -28,6 +28,6 @@ Set to front door homepage url.
 Set to back door connections url.
 * IC\_PROFILES  
 Set to back door profiles url.
-* IC\_HOST
+* IC\_HOST  
 Set to back door host. Must match the host part of IC\_CONNECTIONS and IC\_PROFILES.
 
