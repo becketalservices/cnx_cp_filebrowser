@@ -1,5 +1,6 @@
 #!/bin/bash
-version=201812060800
+set -o pipefail
+version=201812101300
 
 echo "Assemble webfilesys directory for docker container"
 
@@ -29,11 +30,17 @@ function extract_wefilessys {
     if [ -d "$BASEDIR/webfilesys/webfilesys_war" ]; then
       if [ ! -e "$BASEDIR/webfilesys/webfilesys.war" ];then
         latestzip=$(ls $BASEDIR/webfilesys-*.zip | tail -1)
-        echo "  Extracting $latestzip"
-        unzip -q -d "$BASEDIR/webfilesys" $latestzip
-        if [ $? -gt 0 ]; then
+        if [ $? -eq 0 ]; then
+          echo "  Extracting $latestzip"
+          unzip -q -d "$BASEDIR/webfilesys" $latestzip
+          if [ $? -gt 0 ]; then
+            echo
+            echo "  ERROR: unzip $latestzip -d '$BASEDIR/webfilesys' failed."
+            return 1
+          fi
+        else
           echo
-          echo "  ERROR: unzip $latestzip -d '$BASEDIR/webfilesys' failed."
+          echo "  ERROR: No webfilesys sofware package found. Please download first."
           return 1
         fi
       fi

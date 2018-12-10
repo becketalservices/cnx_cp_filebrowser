@@ -25,7 +25,7 @@ Place the package into the root folder of the git repository.
 2. run configuration script  
 The configuration script does all the work for you, adding the IBM Connections authentication solution as well. 
 In case you want to do it manually, check what the script does. 
-The script requres curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
+The script requres unzip, curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
   
 ```
 ./configure.sh
@@ -110,7 +110,7 @@ debuglevel=0
 helm install ./helm/webfilesys \
   --name webfilesys \
   --namespace connections \
-  --set image.repository=$registry \ 
+  --set image.repository=$registry \
   --set storageClassName=$storeClassName \
   --set env.debuglevel=$debuglevel
 
