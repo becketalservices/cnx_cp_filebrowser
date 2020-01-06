@@ -24,7 +24,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        args: ["-c", "/etc/config/config.yaml", "--baseurl", "/{{ .Values.baseURL }}", "-s", "/mnt", "-d", "/db/filebrowser.db" ]
+        args: ["-c", "/etc/config/config.yaml" ]
         ports:
         - name: http
           containerPort: 80

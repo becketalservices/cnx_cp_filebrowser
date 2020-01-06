@@ -11,7 +11,7 @@ data:
     database: "/etc/database.db"
     log: stdout
     plugin: ''
-    scope: "/mnt/files"
+    root: "/mnt"
     allowCommands: true
     allowEdit: true
     allowNew: true

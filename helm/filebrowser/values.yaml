@@ -12,7 +12,7 @@ filestore: customizernfsclaim
 
 image:
   repository: filebrowser/filebrowser 
-  tag: v1.10.0
+  tag: v2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
