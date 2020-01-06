@@ -1,4 +1,4 @@
-# A stylish web-based file manager for IBM Connections Component Pack Customizer
+# A stylish web-based file manager for HCL Connections Component Pack Customizer
 
 This project will add a simple web-based file manager to your Component Pack installation so that you can simply browse your customizer files. This is helpful when you can not simple upload files using FTP to your component pack customizer file store as desicribed by HCL [Managing file resources used in the "include-files" property](https://help.hcltechsw.com/connections/v65/admin/customize/custom_customizer_props_include_files.html) 
 
@@ -30,7 +30,7 @@ ProxyPassReverse "/filebrowser" "http://master_node_host_name:31675/filebrowser"
 The default login is admin:admin  
 I recommend to change this and add some additional users.
 
-There is no integration with the Connections Authentication. It is just a stand alone web-based file manager that acts on the same storage as the IBM Connections Component Pack Customizer.
+There is no integration with the Connections Authentication. It is just a stand alone web-based file manager that acts on the same storage as the HCL Connections Component Pack Customizer.
 
 ## Configuration
 
