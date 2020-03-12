@@ -8,7 +8,7 @@ data:
     port: 80
     baseURL: "/{{ .Values.baseURL }}"
     address: ''
-    database: "/etc/database.db"
+    database: "/db/database.db"
     log: stdout
     plugin: ''
     root: "/mnt"
