@@ -18,5 +18,7 @@ RUN chmod u+x $CATALINA_HOME/bin/startup.sh; \
   ln -s /mnt/config/decorations.xml $CATALINA_HOME/webapps/webfilesys/WEB-INF/decorations.xml ; \
   cp $CATALINA_HOME/webapps/webfilesys/index.html $CATALINA_HOME/webapps/ROOT/index.html
 
+# Uncomment next linke to add updated trust store to image
+# COPY cacerts /etc/ssl/certs/java/cacerts
 CMD ["startup.sh", "run"]
 
