@@ -14,7 +14,9 @@ git clone https://github.com/becketalservices/cnx_cp_filebrowser.git \
 
 ```
 
-# 3 Create Docker image via script
+# 2 Prepare Docker image
+
+## 2.1 Create directory via script
 I did not include the source files into this repository, you need to download and extract them first.
 
 Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
@@ -23,7 +25,7 @@ Please check the license information about WebFileSys on the bottom of the [Abou
 Open the [WebFileSys](http://www.webfilesys.de/webfilesys-home/download.html) homepage and download the latest package.
 Place the package into the root folder of the git repository.
 2. run configuration script  
-The configuration script does all the work for you, adding the IBM Connections authentication solution as well. 
+The configuration script does all the work for you, adding the HCL Connections authentication solution as well. 
 In case you want to do it manually, check what the script does. 
 The script requres unzip, curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
   
@@ -33,7 +35,7 @@ The script requres unzip, curl and xmlstarlet. So make shure the appropriate pac
   
 check the output for errors.
 
-# 3 Create basic Docker image manually
+# 2.2 Create direcotry manually
 I did not include the source files into this repository, you need to download and extract them first.
 
 Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
@@ -55,12 +57,51 @@ unzip webfilesys/webfilesys.war -d webfilesys/webfilesys_war
 modify the file webfilesys/webfilesys\_war/WEB-INF/users.xml.unix<br>
 an example is in the root directory where a 2nd user exists and the documentRoot is /mnt/files<br>
 `cp users.xml.unix webfilesys/webfilesys_war/WEB-INF/users.xml.unix`
-4. In case you want to have a more IBM Connections like UI color scheme
+4. In case you want to have a more HCL Connections like UI color scheme
 Copy the cnx style into the webfilesys\_war directory  
 `cp -r style/* webfilesys/webfilesys_war/`  
 To make it the default ui, you need to modify the users.xml.unix  
 `sed -i "s/<css>.*<\/css>/<css>ics<\/css>/" webfilesys/webfilesys_war/WEB-INF/users.xml.unix`
-5. run ./build.sh
+
+# 3 Build Docker image
+*In case your connections instance is running a self signed certificate or a company issued certificate, you need to trust it first*
+
+extract the cacerts file from the Docker image.
+
+```
+imgid=$(docker create tomcat:8.5-jre8-alpine)
+docker cp $imgid:/etc/ssl/certs/java/cacerts .
+docker rm $imgid
+
+```
+
+retrieve the self signed certificate from your connections.
+
+```
+URL=<connections hostname:port>
+openssl s_client -showcerts -connect $URL < /dev/null | openssl x509 -outform DER > cacert.der
+
+```
+
+merge self signed certifcate into the keystore. 
+the default password is `chagneit` 
+make sure you answer the question if you trust the certificae with yes.
+
+```
+keytool -import -trustcacerts -file cacert.der -alias selfsignedcert -keystore cacerts
+
+```
+
+Add a line in the Dockerfile to copy the cecerts file into the Docker image:
+
+```
+COPY cacerts /etc/ssl/certs/java/cacerts
+
+```
+
+To build the final image run:
+
+run ./build.sh
 
 # 4 Test your image
 You can test your new docker image:
@@ -128,13 +169,13 @@ The default login is admin:topsecret
 This might be different in case you used a custom users.xml.unix file.  
 I recommend to change all password for all default users. 
 
-Depending on the methond you choose to create your docker image, there is an integration with IBM Connections. When the integration is active, you get redirected to your IBM Connections Homepage for authentication equal to the method, the Component Pack Customizer uses. If you need more inforamation about the IBM Connections Authentication check the documentation for [Authentication modules for IBM Connections based Authentication](https://github.com/becketalservices/cnx_cp_filebrowser/tree/wfs_cnx_auth). To bypass the IBM Connections Authentication, use /webfilesys/servlet?command=loginForm as URL. This will force the webfilesys authentication based on the users.xml file.
+Depending on the methond you choose to create your docker image, there is an integration with HCL Connections. When the integration is active, you get redirected to your HCL Connections Homepage for authentication equal to the method, the Component Pack Customizer uses. If you need more inforamation about the HCL Connections Authentication check the documentation for [Authentication modules for HCL Connections based Authentication](https://github.com/becketalservices/cnx_cp_filebrowser/tree/wfs_cnx_auth). To bypass the HCL Connections Authentication, use /webfilesys/servlet?command=loginForm as URL. This will force the webfilesys authentication based on the users.xml file.
 
 # 7 Configuration
 
 Currently there are no configurations available beside that you can manage users.  
 
-In case you want to do more with WebFileSys than managing files for IBM Customizer, feel free to modify the _webfilesys.conf_ or any other configuration file. You can either backe you modifications into your docker image or move the files into the /mnt/config directory. Adapt the _setup/startup.sh_ script to initialize your config directory and the Dockerfile to create links from the original position of the files into the config directory.
+In case you want to do more with WebFileSys than managing files for HCL Customizer, feel free to modify the _webfilesys.conf_ or any other configuration file. You can either backe you modifications into your docker image or move the files into the /mnt/config directory. Adapt the _setup/startup.sh_ script to initialize your config directory and the Dockerfile to create links from the original position of the files into the config directory.
  
 # 8 License
 
