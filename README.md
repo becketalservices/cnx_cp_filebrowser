@@ -30,12 +30,12 @@ In case you want to do it manually, check what the script does.
 The script requres unzip, curl and xmlstarlet. So make shure the appropriate packages are on your system. The http client jar files are downloaded directly from the internet. Make shure the right environment variables exists, so that curl uses your proxy. 
   
 ```
-./configure.sh
+./configure.sh <default password>
 ```
   
 check the output for errors.
 
-# 2.2 Create direcotry manually
+# 2.2 Create directory manually
 I did not include the source files into this repository, you need to download and extract them first.
 
 Please check the license information about WebFileSys on the bottom of the [About WebFileSys](http://www.webfilesys.de/webfilesys-home/webfilesys.html) page.
@@ -64,7 +64,7 @@ To make it the default ui, you need to modify the users.xml.unix
 `sed -i "s/<css>.*<\/css>/<css>ics<\/css>/" webfilesys/webfilesys_war/WEB-INF/users.xml.unix`
 
 # 3 Build Docker image
-*In case your connections instance is running a self signed certificate or a company issued certificate, you need to trust it first*
+_In case your connections instance is running a self signed certificate or a company issued certificate, you need to trust it first_
 
 extract the cacerts file from the Docker image.
 
@@ -119,7 +119,7 @@ You need to tag and then upload the image
 registry=<registry>
 
 # In case you have multiple versions, you can change the tag.
-tag=latest 
+tag=$(date "+%Y%m%d%H%M") 
 
 # Tag the local image
 docker tag webfilesys:latest $registry/webfilesys:$tag
@@ -141,6 +141,9 @@ Run on your kubernetes installation host or master:
 # Path to your registry. e.g.: cpcontainerregistry.azurecr.io
 registry=<registry>
 
+# Image Tag used during creation 
+tag=$tag
+
 # Name of your storage Class
 storeClassName=default
 
@@ -152,6 +155,7 @@ helm install ./helm/webfilesys \
   --name webfilesys \
   --namespace connections \
   --set image.repository=$registry \
+  --set-string image.tag=$tag \
   --set storageClassName=$storeClassName \
   --set env.debuglevel=$debuglevel
 
@@ -165,7 +169,7 @@ ProxyPassReverse "/webfilesys" "http://master_node_host_name:31677/webfilesys"
 
 ```
 
-The default login is admin:topsecret  
+The default login is admin:<password set in 2.1 - or topsecret>  
 This might be different in case you used a custom users.xml.unix file.  
 I recommend to change all password for all default users. 
 

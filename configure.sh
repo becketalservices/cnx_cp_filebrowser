@@ -1,8 +1,10 @@
 #!/bin/bash
 set -o pipefail
-version=201812101300
+version=202005111717
 
 echo "Assemble webfilesys directory for docker container"
+
+DEFAULTPWD="$1"
 
 BASEDIR=$(dirname $0)
 filterName=LtpaTokenAuthFilter
@@ -172,6 +174,19 @@ function addJar {
   fi
 }
 
+if [ "$DEFAULTPWD" == "" ]; then
+  echo "ERROR: no default password given."
+  echo "Run: $0 <default password>"
+  exit 1
+fi
+
+echo "Check required commands"
+command -v xmlstarlet > /dev/null
+if [ $? -gt 0 ]; then
+  echo "ERROR: command xmlstarlet missing."
+  exit 1
+fi
+
 echo "Check webfilesys_war directory"
 
 if [ ! -e "$BASEDIR/webfilesys/webfilesys_war/WEB-INF/webfilesys.conf" ]; then
@@ -199,8 +214,9 @@ else
   echo "  Add custom log successfully done."
 fi
 
-echo "Adding users.xml"
-cp $BASEDIR/users.xml.unix $BASEDIR/webfilesys/webfilesys_war/WEB-INF/
+echo "Adding users.xml and set passwords"
+#cp $BASEDIR/users.xml.unix $BASEDIR/webfilesys/webfilesys_war/WEB-INF/
+xmlstarlet ed -u "users/user/password" -v "$DEFAULTPWD" $BASEDIR/users.xml.unix > $BASEDIR/webfilesys/webfilesys_war/WEB-INF/users.xml.unix
 if [ $? -gt 0 ]; then
   echo "------------------------------"
   echo "ERROR copy failed. Abort"
@@ -280,12 +296,6 @@ else
     echo
     exit 1
 fi
-
-echo
-echo "-----------------------------------------------"
-echo "WARNING Customization of users.xml.unix missing"
-echo "-----------------------------------------------"
-echo
 
 echo "backup $xmlfile"
 cp $xmlfile ${xmlfile}.${tmpext}
