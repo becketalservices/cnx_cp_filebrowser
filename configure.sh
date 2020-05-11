@@ -14,10 +14,10 @@ xmlfile=$BASEDIR/webfilesys/webfilesys_war/WEB-INF/web.xml
 tmpext=$(date +%Y%m%d%H%M%S)
 # using maven repository to download additional jars
 declare -A jars
-jars[httpclient-4.5.6.jar]="http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.6/httpclient-4.5.6.jar"
-jars[httpcore-4.4.10.jar]="http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.10/httpcore-4.4.10.jar"
-jars[commons-logging-1.2.jar]="http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"
-jars[commons-codec-1.10.jar]="http://central.maven.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"
+jars[httpclient-4.5.12.jar]="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.12/httpclient-4.5.12.jar"
+jars[httpcore-4.4.13.jar]="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar"
+jars[commons-logging-1.2.jar]="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"
+jars[commons-codec-1.14.jar]="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.14/commons-codec-1.14.jar"
 
 function extract_wefilessys {
   if [ ! -e "$BASEDIR/webfilesys" ]; then
