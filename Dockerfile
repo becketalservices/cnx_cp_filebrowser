@@ -16,9 +16,13 @@ RUN chmod u+x $CATALINA_HOME/bin/startup.sh; \
   sed -i "s/Connector port/Connector URIEncoding=\"UTF-8\" port/" $CATALINA_HOME/conf/server.xml; \
   ln -s /mnt/config/users.xml $CATALINA_HOME/webapps/webfilesys/WEB-INF/users.xml ; \
   ln -s /mnt/config/decorations.xml $CATALINA_HOME/webapps/webfilesys/WEB-INF/decorations.xml ; \
-  cp $CATALINA_HOME/webapps/webfilesys/index.html $CATALINA_HOME/webapps/ROOT/index.html
+  cp $CATALINA_HOME/webapps/webfilesys/index.html $CATALINA_HOME/webapps/ROOT/index.html ; \
+  addgroup -g 101 node ; \  
+  adduser --system --ingroup node --home /usr/local/tomcat -u 100 node ; \
+  chown -R 100:101 /usr/local/tomcat
 
 # Uncomment next linke to add updated trust store to image
 # COPY cacerts /etc/ssl/certs/java/cacerts
+USER 100:101
 CMD ["startup.sh", "run"]
 
